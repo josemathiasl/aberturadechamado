@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="assets/logosninternet.ico">
+    <link rel="stylesheet" href="style.css">
+    <title>Abertura de Chamado</title>
+</head>
+<body>
+
+    <div class="logo">
+        <img src="assets/logosninternet.png" alt="Logo SN INTERNET"> 
+    </div>
+    
+    <div class="button-group">
+        <button onclick="window.location.href='aberturachamado.html'">ABERTURA DE CHAMADO</button>
+        <button onclick="window.location.href='trocadeendereco.html'">INSTALAÇÃO / TROCA DE ENDEREÇO</button>
+        <button onclick="window.location.href='servicosextras.html'">SERVIÇOS EXTRAS</button>
+    </div>
+    
+    <h1>ABERTURA DE CHAMADO</h1>
+
+    <form id="chamadoForm">
+        <label for="periodo">PERÍODO:</label>
+        <select id="periodo" name="periodo">
+            <option value="MANHÃ">MANHÃ</option>
+            <option value="TARDE">TARDE</option>
+            <option value="INDIFERENTE">INDIFERENTE</option>
+        </select>
+
+        <label for="ca-ftta">CA/FTTA:</label>
+        <select id="ca-ftta" name="ca-ftta">
+            <option value="CA">CA</option>
+            <option value="FTTA">FTTA</option>
+        </select>
+        <input type="text" id="ca-ftta-text" name="ca-ftta-text" placeholder="INSIRA Nº CTO OU FTTA" required>
+
+        <label for="id">ID:</label>
+        <input type="text" id="id" name="id" required>
+
+        <label for="pppoe">PPPOE:</label>
+        <input type="text" id="pppoe" name="pppoe" required>
+
+        <label for="nome_cliente">NOME CLIENTE:</label>
+        <input type="text" id="nome_cliente" name="nome_cliente" required>
+
+        <label for="endereco">ENDEREÇO:</label>
+        <input type="text" id="endereco" name="endereco" required>
+
+        <label for="referencia">PONTO DE REFERÊNCIA:</label>
+        <input type="text" id="referencia" name="referencia" required>
+
+        <label for="telefone">TELEFONE PARA CONTATO:</label>
+        <input type="text" id="telefone" name="telefone" pattern="\d{10,11}" title="Insira um número de telefone válido com 10 ou 11 dígitos." required>
+
+        <label for="potencia">POTÊNCIA:</label>
+        <input type="text" id="potencia" name="potencia" required>
+
+        <label for="descricao">DESCRIÇÃO:</label>
+        <textarea id="descricao" name="descricao" rows="4"></textarea>
+
+        <label for="prazoMaximo">Prazo Máximo de Atendimento:</label>
+        <select id="prazoMaximo" name="prazoMaximo">
+            <option value="48 HORAS ÚTEIS">48 HORAS ÚTEIS</option>
+            <option value="72 HORAS ÚTEIS">72 HORAS ÚTEIS</option>
+            <option value="7 a 15 DIAS">7 A 15 DIAS</option>
+        </select>
+
+        <div class="button-group">
+            <button type="button" onclick="gerarChamado()">Gerar Chamado e Copiar</button>
+            <button type="button" id="resetButton" onclick="limparFormulario()">Limpar Formulário</button>
+        </div>
+    </form>
+
+    <p id="resultado"></p>
+
+    <script>
+    function gerarChamado() {
+        // Coleta os valores do formulário
+        const periodo = document.getElementById('periodo').value;
+        const caFtta = document.getElementById('ca-ftta').value;
+        const caFttaText = document.getElementById('ca-ftta-text').value;
+        const id = document.getElementById('id').value;
+        const pppoe = document.getElementById('pppoe').value;
+        const nomeCliente = document.getElementById('nome_cliente').value;
+        const endereco = document.getElementById('endereco').value;
+        const referencia = document.getElementById('referencia').value;
+        const telefone = document.getElementById('telefone').value;
+        const potencia = document.getElementById('potencia').value;
+        const descricao = document.getElementById('descricao').value;
+        
+        // Coleta o prazo máximo selecionado
+        const prazoMaximo = document.getElementById('prazoMaximo').value;
+
+        // Função para remover acentos e converter para maiúsculas
+        function formatarTexto(texto) {
+            const acentuacao = { 'á': 'A', 'ã': 'A', 'â': 'A', 'é': 'E', 'ê': 'E', 'í': 'I', 'ó': 'O', 'õ': 'O', 'ô': 'O', 'ú': 'U', 'ç': 'C', 
+                                 'Á': 'A', 'Ã': 'A', 'Â': 'A', 'É': 'E', 'Ê': 'E', 'Í': 'I', 'Ó': 'O', 'Õ': 'O', 'Ô': 'O', 'Ú': 'U', 'Ç': 'C' };
+            return texto.toUpperCase().split('').map(char => acentuacao[char] || char).join('');
+        }
+
+        // Formata a saída do chamado
+        let resultado = `
+            PERÍODO: ${formatarTexto(periodo)} _____
+            ${formatarTexto(caFtta)}: ${formatarTexto(caFttaText)} _____
+            ID: ${formatarTexto(id)} _____
+            PPPOE: ${pppoe} _____
+            NOME DO CLIENTE: ${formatarTexto(nomeCliente)} _____
+            ENDEREÇO: ${formatarTexto(endereco)} _____
+            PONTO DE REFERÊNCIA: ${formatarTexto(referencia)} _____
+            TELEFONE PARA CONTATO: ${formatarTexto(telefone)} _____
+            POTÊNCIA: ${formatarTexto(potencia)} _____
+            DESCRIÇÃO: ${formatarTexto(descricao)} _____
+            CLIENTE CIENTE DO PRAZO MÁXIMO DE ${formatarTexto(prazoMaximo)} E CUSTOS DA VISITA TÉCNICA DE R$50,00 A HORA TÉCNICA E MATERIAIS SE NECESSÁRIO. _____
+        `;
+
+        // Exibe o resultado na página
+        document.getElementById('resultado').innerText = resultado;
+
+        // Copia o resultado para a área de transferência
+        navigator.clipboard.writeText(resultado).then(() => {
+            alert('Chamado gerado e copiado para a área de transferência!');
+        }).catch(err => {
+            console.error('Erro ao copiar para a área de transferência: ', err);
+        });
+    }
+
+    function limparFormulario() {
+        document.getElementById('chamadoForm').reset();
+        document.getElementById('resultado').innerText = '';
+    }
+    </script>
+
+</body>
+</html>

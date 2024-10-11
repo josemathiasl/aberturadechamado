@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="assets/logosninternet.ico">
+    <link rel="stylesheet" href="style.css">
+    <title>SERVIÇOS EXTRAS</title>
+    <style>
+        /* Estilos para o formulário */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        .logo img {
+            max-width: 200px;
+        }
+        .button-group {
+            margin-bottom: 20px;
+        }
+        h1 {
+            font-size: 24px;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #resultado {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #e9ecef;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="logo">
+        <img src="assets/logosninternet.png" alt="Logo SN INTERNET"> 
+    </div>
+    
+    <div class="button-group">
+        <button onclick="window.location.href='aberturachamado.html'">ABERTURA DE CHAMADO</button>
+        <button onclick="window.location.href='trocadeendereco.html'">INSTALAÇÃO / TROCA DE ENDEREÇO</button>
+        <button onclick="window.location.href='servicosextras.html'">SERVIÇOS EXTRAS</button>
+    </div>
+
+<h1>ABERTURA DE CHAMADO</h1>
+
+<form id="chamadoForm">
+    <label for="periodo">PERÍODO:</label>
+    <select id="periodo" name="periodo">
+        <option value="MANHÃ">MANHÃ</option>
+        <option value="TARDE">TARDE</option>
+        <option value="INDIFERENTE">INDIFERENTE</option>
+    </select>
+
+    <label for="id">ID:</label>
+    <input type="text" id="id" name="id" required>
+
+    <label for="nome_cliente">NOME CLIENTE:</label>
+    <input type="text" id="nome_cliente" name="nome_cliente" required>
+
+    <label for="endereco">ENDEREÇO:</label>
+    <input type="text" id="endereco" name="endereco" required>
+
+    <label for="referencia">PONTO DE REFERÊNCIA:</label>
+    <input type="text" id="referencia" name="referencia" required>
+
+    <label for="telefone">TELEFONE PARA CONTATO:</label>
+    <input type="text" id="telefone" name="telefone" pattern="\d{10,11}" title="Insira um número de telefone válido com 10 ou 11 dígitos." required>
+
+    <label for="descricao">DESCRIÇÃO:</label>
+    <textarea id="descricao" name="descricao" rows="4"></textarea>
+
+    <label for="equipamentos_comodato">EQUIPAMENTOS EM COMODATO:</label>
+    <select id="equipamentos_comodato" name="equipamentos_comodato" onchange="toggleTipoEquipamento()">
+        <option value="NÃO">NÃO</option>
+        <option value="SIM">SIM</option>
+    </select>
+    
+    <div id="tipoEquipamento" style="display:none;">
+        <label for="tipo_equipamento">TIPO DE EQUIPAMENTO:</label>
+        <input type="text" id="tipo_equipamento" name="tipo_equipamento">
+    </div>
+
+    <label for="taxa_instalacao">TAXA DE INSTALAÇÃO (R$):</label>
+    <input type="text" id="taxa_instalacao" name="taxa_instalacao">
+
+    <label for="parcelas">PARCELAS:</label>
+    <select id="parcelas" name="parcelas">
+        <option value="1X">1X</option>
+        <option value="2X">2X</option>
+        <option value="3X">3X</option>
+        <option value="4X">4X</option>
+        <option value="5X">5X</option>
+        <option value="6X">6X</option>
+        <option value="7X">7X</option>
+        <option value="8X">8X</option>
+        <option value="9X">9X</option>
+        <option value="10X">10X</option>
+    </select>
+
+    <div class="button-group">
+        <button type="button" onclick="gerarChamado()">Gerar Chamado e Copiar</button>
+        <button type="button" id="resetButton" onclick="limparFormulario()">Limpar Formulário</button>
+    </div>
+</form>
+
+<p id="resultado"></p>
+
+<script>
+    // Função para alternar a exibição do tipo de equipamento
+    function toggleTipoEquipamento() {
+        const select = document.getElementById('equipamentos_comodato');
+        const tipoEquipamentoDiv = document.getElementById('tipoEquipamento');
+        tipoEquipamentoDiv.style.display = select.value === 'SIM' ? 'block' : 'none';
+    }
+
+    // Função para gerar o chamado e exibir a saída
+    function gerarChamado() {
+        const periodo = document.getElementById('periodo').value;
+        const id = document.getElementById('id').value;
+        const nomeCliente = document.getElementById('nome_cliente').value;
+        const endereco = document.getElementById('endereco').value;
+        const referencia = document.getElementById('referencia').value;
+        const telefone = document.getElementById('telefone').value;
+        const descricao = document.getElementById('descricao').value;
+        const taxaInstalacao = document.getElementById('taxa_instalacao').value;
+        const parcelas = document.getElementById('parcelas').value;
+
+        // Mensagem de saída do chamado
+        const resultado = `
+            PERÍODO: ${periodo} _____
+            ID: ${id} _____
+            NOME CLIENTE: ${nomeCliente} _____
+            ENDEREÇO: ${endereco} _____
+            PONTO DE REFERÊNCIA: ${referencia} _____
+            TELEFONE: ${telefone} _____
+            DESCRIÇÃO: ${descricao} _____
+            TAXA DE INSTALAÇÃO: R$ ${taxaInstalacao} _____
+            PARCELAS: ${parcelas} _____
+
+            _____PRAZO DE ATENDIMENTO 7 A 15 DIAS.
+            O CONTRATANTE DECLARA PARA TODOS OS FINS DE DIREITO QUE OS SERVIÇOS SOLICITADOS FORAM ATIVADOS/INSTALADOS NA PRESENTE DATA, ESTANDO EM PERFEITO FUNCIONAMENTO. O CONTRATANTE DECLARA TAMBÉM QUE TESTOU E APROVOU OS SERVIÇOS CONTRATADOS E DIANTE DISSO O CONTRATANTE RENUNCIA O DIREITO DE ARREPENDIMENTO, PREVISTO NO ART. 49 DA LEI 8078._____
+        `;
+
+        // Exibir o resultado na página
+        document.getElementById('resultado').innerHTML = resultado;
+        
+        // Copiar o resultado para a área de transferência
+        navigator.clipboard.writeText(resultado).then(() => {
+            alert('Chamado copiado para a área de transferência!');
+        }).catch(err => {
+            console.error('Erro ao copiar o texto: ', err);
+        });
+    }
+
+    // Função para limpar o formulário
+    function limparFormulario() {
+        document.getElementById('chamadoForm').reset();
+        document.getElementById('resultado').innerHTML = '';
+        toggleTipoEquipamento(); // Reseta a exibição do tipo de equipamento
+    }
+</script>
+
+</body>
+</html>

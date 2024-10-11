@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="assets/logosninternet.ico">
+    <link rel="stylesheet" href="style.css">
+    <title>Abertura de Chamado</title>
+    <style>
+        /* Adicionando estilo para os campos CTO e Distância */
+        .cto-distancia {
+            display: flex;
+            justify-content: space-between; /* Espaço entre os campos */
+            margin-bottom: 10px; /* Espaço inferior entre os grupos */
+            flex-wrap: wrap; /* Permite que os campos quebrem para a próxima linha em telas menores */
+        }
+
+        .cto-distancia > div {
+            flex: 1; /* Faz os campos ocuparem o mesmo espaço */
+            margin-right: 10px; /* Espaço entre os campos */
+            min-width: 150px; /* Largura mínima para garantir legibilidade */
+            max-width: 270px; /* Define a largura máxima dos campos */
+        }
+
+        .cto-distancia > div:last-child {
+            margin-right: 0; /* Remove a margem do último campo */
+        }
+
+        .cto-distancia label {
+            display: block; /* Faz o rótulo ocupar uma linha inteira */
+            margin-bottom: 5px; /* Espaço entre o rótulo e o campo de entrada */
+        }
+
+        .cto-distancia input {
+            width: 100%; /* Campo de entrada ocupa toda a largura do div */
+            max-width: 270px; /* Define a largura máxima dos campos de entrada */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="logo">
+        <img src="assets/logosninternet.png" alt="Logo SN INTERNET"> 
+    </div>
+    
+    <div class="button-group">
+        <button onclick="window.location.href='aberturachamado.html'">ABERTURA DE CHAMADO</button>
+        <button onclick="window.location.href='trocadeendereco.html'">INSTALAÇÃO / TROCA DE ENDEREÇO</button>
+        <button onclick="window.location.href='servicosextras.html'">SERVIÇOS EXTRAS</button>
+    </div>
+
+    <h1>INSTALAÇÃO / TROCA DE ENDEREÇO</h1>
+
+    <form id="chamadoForm">
+        <!-- Campo para selecionar o período -->
+        <label for="periodo">PERÍODO:</label>
+        <select id="periodo" name="periodo">
+            <option value="MANHÃ">MANHÃ</option>
+            <option value="TARDE">TARDE</option>
+            <option value="INDIFERENTE">INDIFERENTE</option>
+        </select>
+
+        <!-- Campo para ID -->
+        <label for="id">ID:</label>
+        <input type="text" id="id" name="id" required>
+
+        <!-- Campo para PPPOE -->
+        <label for="pppoe">PPPOE:</label>
+        <input type="text" id="pppoe" name="pppoe" required>
+
+        <!-- Campo para Nome do Cliente -->
+        <label for="nome_cliente">NOME CLIENTE:</label>
+        <input type="text" id="nome_cliente" name="nome_cliente" required>
+
+        <!-- Campo para Endereço -->
+        <label for="endereco">ENDEREÇO:</label>
+        <input type="text" id="endereco" name="endereco" required>
+
+        <!-- Campo para Ponto de Referência -->
+        <label for="referencia">PONTO DE REFERÊNCIA:</label>
+        <input type="text" id="referencia" name="referencia" required>
+
+        <!-- Campo para Telefone de Contato -->
+        <label for="telefone">TELEFONE PARA CONTATO:</label>
+        <input type="text" id="telefone" name="telefone" pattern="\d{10,11}" title="Insira um número de telefone válido com 10 ou 11 dígitos." required>
+
+        <!-- Campo para Descrição -->
+        <label for="descricao">DESCRIÇÃO:</label>
+        <textarea id="descricao" name="descricao" rows="4"></textarea>
+
+        <!-- Campos para CTO e Distância -->
+        <div class="cto-distancia">
+            <div>
+                <label for="cto_proxima_1">CTO PRÓXIMA 1:</label>
+                <input type="text" id="cto_proxima_1" name="cto_proxima_1">
+            </div>
+            <div>
+                <label for="distancia_1">DISTÂNCIA:</label>
+                <input type="text" id="distancia_1" name="distancia_1">
+            </div>
+        </div>
+
+        <div class="cto-distancia">
+            <div>
+                <label for="cto_proxima_2">CTO PRÓXIMA 2:</label>
+                <input type="text" id="cto_proxima_2" name="cto_proxima_2">
+            </div>
+            <div>
+                <label for="distancia_2">DISTÂNCIA:</label>
+                <input type="text" id="distancia_2" name="distancia_2">
+            </div>
+        </div>
+
+        <div class="cto-distancia">
+            <div>
+                <label for="cto_proxima_3">CTO PRÓXIMA 3:</label>
+                <input type="text" id="cto_proxima_3" name="cto_proxima_3">
+            </div>
+            <div>
+                <label for="distancia_3">DISTÂNCIA:</label>
+                <input type="text" id="distancia_3" name="distancia_3">
+            </div>
+        </div>
+
+        <!-- Campos para Login e Senha -->
+        <label for="login">LOGIN:</label>
+        <input type="text" id="login" name="login">
+
+        <label for="senha">SENHA:</label>
+        <input type="text" id="senha" name="senha">
+
+        <!-- Seleção de Equipamentos em Comodato -->
+        <label for="equipamentos_comodato">EQUIPAMENTOS EM COMODATO:</label>
+        <select id="equipamentos_comodato" name="equipamentos_comodato" onchange="toggleTipoEquipamento()">
+            <option value="NÃO">NÃO</option>
+            <option value="SIM">SIM</option>
+        </select>
+        
+        <!-- Campo para Tipo de Equipamento -->
+        <div id="tipoEquipamento" style="display:none;">
+            <label for="tipo_equipamento">TIPO DE EQUIPAMENTO:</label>
+            <input type="text" id="tipo_equipamento" name="tipo_equipamento">
+        </div>
+
+        <!-- Campo para Taxa de Instalação -->
+        <label for="taxa_instalacao">TAXA DE INSTALAÇÃO (R$):</label>
+        <input type="text" id="taxa_instalacao" name="taxa_instalacao">
+
+        <!-- Seleção de Parcelas -->
+        <label for="parcelas">PARCELAS:</label>
+        <select id="parcelas" name="parcelas">
+            <option value="1X">1X</option>
+            <option value="2X">2X</option>
+            <option value="3X">3X</option>
+            <option value="4X">4X</option>
+            <option value="5X">5X</option>
+            <option value="6X">6X</option>
+            <option value="7X">7X</option>
+            <option value="8X">8X</option>
+            <option value="9X">9X</option>
+            <option value="10X">10X</option>
+        </select>
+    
+        <!-- Botões para gerar chamado e limpar formulário -->
+        <div class="button-group">
+            <button type="button" onclick="gerarChamado()">Gerar Chamado e Copiar</button>
+            <button type="button" id="resetButton" onclick="limparFormulario()">Limpar Formulário</button>
+        </div>
+    </form>
+
+    <p id="resultado"></p>
+
+    <script>
+        // Função para remover acentos e caracteres especiais
+        function removerAcentos(str) {
+            return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        }
+
+        // Função para gerar o chamado e exibir a mensagem
+        function gerarChamado() {
+            const periodo = document.getElementById("periodo").value;
+            const id = document.getElementById("id").value;
+            const pppoe = document.getElementById("pppoe").value;
+            const nomeCliente = removerAcentos(document.getElementById("nome_cliente").value);
+            const endereco = removerAcentos(document.getElementById("endereco").value);
+            const referencia = removerAcentos(document.getElementById("referencia").value);
+            const telefone = document.getElementById("telefone").value;
+            const descricao = removerAcentos(document.getElementById("descricao").value);
+            const ctoProxima1 = document.getElementById("cto_proxima_1").value;
+            const distancia1 = document.getElementById("distancia_1").value;
+            const ctoProxima2 = document.getElementById("cto_proxima_2").value;
+            const distancia2 = document.getElementById("distancia_2").value;
+            const ctoProxima3 = document.getElementById("cto_proxima_3").value;
+            const distancia3 = document.getElementById("distancia_3").value;
+            const login = document.getElementById("login").value;
+            const senha = document.getElementById("senha").value;
+            const equipamentosComodato = document.getElementById("equipamentos_comodato").value;
+            const tipoEquipamento = document.getElementById("tipo_equipamento").value;
+            const taxaInstalacao = document.getElementById("taxa_instalacao").value;
+            const parcelas = document.getElementById("parcelas").value;
+
+const resultado = `
+                PERÍODO: ${periodo} ____
+                ID: ${id} ____
+                PPPoE: ${pppoe}
+                NOME DO CLIENTE: ${nomeCliente} ____
+                ENDEREÇO: ${endereco} ____
+                PONTO DE REFERÊNCIA: ${referencia} ____
+                TELEFONE: ${telefone} ____
+                DESCRIÇÃO: ${descricao} ____
+
+                CTO PRÓXIMA 1: ${ctoProxima1} ___ DISTÂNCIA 1: ${distancia1} ____
+                CTO PRÓXIMA 2: ${ctoProxima2} ___ DISTÂNCIA 2: ${distancia2} ____
+                CTO PRÓXIMA 3: ${ctoProxima3} ___ DISTÂNCIA 3: ${distancia3} ____
+                
+                LOGIN: ${login} ____
+                SENHA: ${senha} ____
+                EQUIPAMENTOS EM COMODATO: ${equipamentosComodato} ____
+                TIPO DE EQUIPAMENTO: ${tipoEquipamento} ____
+                TAXA DE INSTALAÇÃO: R$ ${taxaInstalacao} ____
+                PARCELAS: ${parcelas} ____
+                
+                 _____PRAZO DE ATENDIMENTO 7 A 15 DIAS.
+            O CONTRATANTE DECLARA PARA TODOS OS FINS DE DIREITO QUE OS SERVIÇOS SOLICITADOS FORAM ATIVADOS/INSTALADOS NA PRESENTE DATA, ESTANDO EM PERFEITO FUNCIONAMENTO. O CONTRATANTE DECLARA TAMBÉM QUE TESTOU E APROVOU OS SERVIÇOS CONTRATADOS E DIANTE DISSO O CONTRATANTE RENUNCIA O DIREITO DE ARREPENDIMENTO, PREVISTO NO ART. 49 DA LEI 8078._____`;
+
+            document.getElementById("resultado").innerHTML = resultado;
+            // Copiar resultado para área de transferência
+            navigator.clipboard.writeText(resultado).then(function() {
+                console.log('Texto copiado com sucesso!');
+            }, function(err) {
+                console.error('Erro ao copiar texto: ', err);
+            });
+        }
+
+        // Função para limpar o formulário
+        function limparFormulario() {
+            document.getElementById("chamadoForm").reset(); // Limpa todos os campos do formulário
+            document.getElementById("resultado").innerHTML = ""; // Limpa o resultado exibido
+        }
+
+        // Função para mostrar ou esconder o campo do tipo de equipamento
+        function toggleTipoEquipamento() {
+            const selectEquipamentos = document.getElementById("equipamentos_comodato").value;
+            const tipoEquipamentoDiv = document.getElementById("tipoEquipamento");
+            if (selectEquipamentos === "SIM") {
+                tipoEquipamentoDiv.style.display = "block"; // Exibe o campo
+            } else {
+                tipoEquipamentoDiv.style.display = "none"; // Esconde o campo
+            }
+        }
+    </script>
+</body>
+</html>
